@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg_gradient"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+    <!-- Saludo -->
+    <TextView
+        android:id="@+id/tvSaludo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Hola, Telequito!"
+        android:textColor="#1E1E1E"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="6dp"/>
+
+    <!-- Submensaje motivacional -->
+    <TextView
+        android:id="@+id/tvMensaje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hoy es un gran día para aprender 🌞"
+        android:textSize="16sp"
+        android:textColor="#3A3A3A"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif"/>
+
+    <!-- Tarjeta principal -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:elevation="6dp"
+        android:backgroundTint="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgUsuario"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"
+                android:background="#EAEAEA"
+                android:contentDescription="Imagen del usuario"
+                android:layout_marginBottom="12dp"
+                android:clipToOutline="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toca la imagen para cambiarla"
+                android:textColor="#6B6B6B"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Botón lleno (Ver mis cursos) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerCursos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver mis cursos"
+        android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        app:backgroundTint="?attr/colorPrimary"
+        app:cornerRadius="16dp"
+        app:icon="@android:drawable/ic_menu_agenda"
+        app:iconPadding="12dp"
+        app:iconTint="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="12dp"
+        android:elevation="2dp" />
+
+    <!-- Botón outlined (Configuraciones) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configuraciones"
+        android:textAllCaps="false"
+        app:cornerRadius="16dp"
+        app:strokeColor="?attr/colorPrimary"
+        app:strokeWidth="2dp"
+        app:backgroundTint="@android:color/transparent"
+        android:textColor="?attr/colorPrimary"
+        app:icon="@android:drawable/ic_menu_manage"
+        app:iconTint="?attr/colorPrimary"
+        app:iconPadding="12dp"
+        android:layout_marginTop="12dp"
+        android:paddingVertical="12dp"
+        android:elevation="0dp" />
+
+</LinearLayout>

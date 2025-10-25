@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.GestorEstudioApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#4C6EF5</item>
+        <item name="colorSecondary">#748FFC</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>

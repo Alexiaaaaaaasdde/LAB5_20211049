@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_card">
+
+    <TextView
+        android:id="@+id/tvNombreCurso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del curso"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#1E1E1E" />
+
+    <TextView
+        android:id="@+id/tvCategoriaCurso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tipo: Obligatorio"
+        android:textSize="15sp"
+        android:textColor="#555" />
+
+    <TextView
+        android:id="@+id/tvFrecuenciaCurso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Frecuencia: Cada 2 días"
+        android:textSize="15sp"
+        android:textColor="#555" />
+
+    <TextView
+        android:id="@+id/tvFechaCurso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Próxima sesión: 25/10/2025 - 09:00 AM"
+        android:textSize="14sp"
+        android:textColor="#777" />
+
+</LinearLayout>
