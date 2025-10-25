@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
+import com.google.android.material.appbar.MaterialToolbar; // 👈 importante
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -24,6 +25,11 @@ public class NuevoCursoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_curso);
 
+        // 🔹 Barra superior con botón de regreso
+        MaterialToolbar topAppBar = findViewById(R.id.topAppBar);
+        topAppBar.setNavigationOnClickListener(v -> finish());
+
+        // 🔹 Campos del formulario
         etNombre = findViewById(R.id.etNombreCurso);
         etCategoria = findViewById(R.id.etCategoria);
         etFrecuencia = findViewById(R.id.etFrecuencia);

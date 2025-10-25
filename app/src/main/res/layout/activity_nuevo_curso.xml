@@ -1,68 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
     android:background="@drawable/bg_gradient">
 
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:background="?attr/colorPrimary"
+        android:title="Nuevo Curso"
+        android:titleTextColor="@android:color/white"
+        android:navigationIcon="@android:drawable/ic_menu_revert" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registrar nuevo curso"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#1E1E1E"
-            android:layout_marginBottom="20dp" />
 
-        <EditText
-            android:id="@+id/etNombreCurso"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del curso"
-            android:inputType="textCapWords" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <EditText
-            android:id="@+id/etCategoria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tipo de curso (Obligatorio, Laboratorio, Electivo)"
-            android:layout_marginTop="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registrar nuevo curso"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1E1E1E"
+                android:layout_marginBottom="20dp" />
 
-        <EditText
-            android:id="@+id/etFrecuencia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Frecuencia esperada (cada X días u horas)"
-            android:layout_marginTop="12dp" />
+            <EditText
+                android:id="@+id/etNombreCurso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre del curso"
+                android:inputType="textCapWords" />
 
-        <EditText
-            android:id="@+id/etFecha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Fecha de próxima sesión"
-            android:focusable="false"
-            android:layout_marginTop="12dp" />
+            <EditText
+                android:id="@+id/etCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tipo de curso (Obligatorio, Laboratorio, Electivo)"
+                android:layout_marginTop="12dp" />
 
-        <EditText
-            android:id="@+id/etHora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Hora de próxima sesión"
-            android:focusable="false"
-            android:layout_marginTop="12dp" />
+            <EditText
+                android:id="@+id/etFrecuencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Frecuencia esperada (cada X días u horas)"
+                android:layout_marginTop="12dp" />
 
-        <Button
-            android:id="@+id/btnGuardarCurso"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar curso"
-            android:layout_marginTop="24dp" />
+            <EditText
+                android:id="@+id/etFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de próxima sesión"
+                android:focusable="false"
+                android:layout_marginTop="12dp" />
 
-    </LinearLayout>
-</ScrollView>
+            <EditText
+                android:id="@+id/etHora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Hora de próxima sesión"
+                android:focusable="false"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnGuardarCurso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar curso"
+                android:layout_marginTop="24dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
