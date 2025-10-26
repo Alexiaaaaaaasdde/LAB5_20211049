@@ -7,9 +7,9 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,25 +30,17 @@ public class CursosActivity extends Activity {
         FloatingActionButton fabAdd = findViewById(R.id.fabAddCurso);
 
         recyclerCursos.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CursosAdapter(listaCursos);
-        recyclerCursos.setAdapter(adapter);
 
         prefs = getSharedPreferences("CursosPrefs", MODE_PRIVATE);
+        cargarCursos();
 
-        // 🔹 Cargar cursos guardados si existen (por ahora, temporal)
-        loadCursosEjemplo();
+        adapter = new CursosAdapter(listaCursos);
+        recyclerCursos.setAdapter(adapter);
 
         fabAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, NuevoCursoActivity.class);
             startActivity(intent);
         });
-    }
-
-    private void loadCursosEjemplo() {
-        // Temporalmente agregamos un curso de prueba
-        listaCursos.add(new Curso("Comunicaciones Ópticas", "Obligatorio", "Cada 2 días", "25/10/2025 - 09:00 AM"));
-        listaCursos.add(new Curso("Laboratorio de IoT", "Laboratorio", "Cada 3 días", "26/10/2025 - 10:30 AM"));
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -57,13 +49,21 @@ public class CursosActivity extends Activity {
         cargarCursos();
     }
 
+    // Cargar lista de cursos guardados
     private void cargarCursos() {
         String json = prefs.getString("listaCursos", "[]");
-        Type type = new com.google.gson.reflect.TypeToken<ArrayList<Curso>>() {}.getType();
-        List<Curso> lista = new com.google.gson.Gson().fromJson(json, type);
+        Type type = new TypeToken<ArrayList<Curso>>() {}.getType();
+        List<Curso> lista = new Gson().fromJson(json, type);
+
         listaCursos.clear();
         listaCursos.addAll(lista);
-        adapter.notifyDataSetChanged();
-    }
 
+        if (listaCursos.isEmpty()) {
+            Toast.makeText(this, "No hay cursos registrados aún", Toast.LENGTH_SHORT).show();
+        }
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
