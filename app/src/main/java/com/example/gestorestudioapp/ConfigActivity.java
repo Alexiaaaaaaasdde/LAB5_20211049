@@ -19,19 +19,16 @@ public class ConfigActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        // 🧩 Campos del formulario actual
         etNombre = findViewById(R.id.etNombre);
         etMensaje = findViewById(R.id.etMensaje);
         btnGuardar = findViewById(R.id.btnGuardar);
 
-        // 🧩 Campos nuevos (agrega sus IDs en el XML)
         etMotivacion = findViewById(R.id.etMotivacion);
         etMotivacionHoras = findViewById(R.id.etMotivacionHoras);
         btnGuardarMotivacion = findViewById(R.id.btnGuardarMotivacion);
 
         prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-        // 🔹 Cargar los datos guardados si existen
         etNombre.setText(prefs.getString("nombre", ""));
         etMensaje.setText(prefs.getString("mensaje", ""));
         etMotivacion.setText(prefs.getString("motivacionMensaje", ""));
@@ -39,17 +36,16 @@ public class ConfigActivity extends Activity {
                 String.valueOf(prefs.getInt("motivacionHoras", 0))
         );
 
-        // 🔹 Guardar configuración general
         btnGuardar.setOnClickListener(v -> {
             prefs.edit()
                     .putString("nombre", etNombre.getText().toString())
                     .putString("mensaje", etMensaje.getText().toString())
                     .apply();
-            Toast.makeText(this, "Datos guardados correctamente ✅", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Datos guardados correctamente", Toast.LENGTH_SHORT).show();
             finish();
         });
 
-        // 🔹 Guardar configuración motivacional
+        //Guardar configuración motivacional
         btnGuardarMotivacion.setOnClickListener(v -> {
             String mensaje = etMotivacion.getText().toString();
             String horasStr = etMotivacionHoras.getText().toString();
@@ -67,11 +63,10 @@ public class ConfigActivity extends Activity {
                     .apply();
 
             programarMotivacion(mensaje, horas);
-            Toast.makeText(this, "Notificación motivacional configurada 🎯", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Notificación motivacional configurada", Toast.LENGTH_SHORT).show();
         });
     }
 
-    // 🔔 Método para programar la notificación motivacional
     private void programarMotivacion(String mensaje, int horas) {
         Intent intent = new Intent(this, RecordatorioReceiver.class);
         intent.putExtra("nombre", "Motivación Personal");

@@ -21,6 +21,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Permiso de notificaciones (Android 13+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        1001
+                );
+            }
+        }
+
         tvSaludo = findViewById(R.id.tvSaludo);
         tvMensaje = findViewById(R.id.tvMensaje);
         imgUsuario = findViewById(R.id.imgUsuario);
@@ -29,32 +40,30 @@ public class MainActivity extends Activity {
 
         prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
 
-        // 🔹 Cargar nombre y mensaje guardados
+        //Cargar nombre y mensaje guardados
         updateTexts();
 
-        // 🔹 Cargar imagen si existe
+        //Cargar imagen si existe
         Bitmap savedImage = loadImage();
         if (savedImage != null) imgUsuario.setImageBitmap(savedImage);
 
-        // 🔹 Cambiar imagen al tocarla
+        // Cambiar imagen
         imgUsuario.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, PICK_IMAGE);
         });
 
-        // 🔹 Botones
+        //Botones
         btnConfig.setOnClickListener(v -> startActivity(new Intent(this, ConfigActivity.class)));
         btnVerCursos.setOnClickListener(v ->
                 startActivity(new Intent(this, CursosActivity.class))
         );
-
     }
 
-    // 🔹 Cada vez que vuelva a esta Activity (después de guardar config)
     @Override
     protected void onResume() {
         super.onResume();
-        updateTexts(); // refresca saludo y mensaje
+        updateTexts();
     }
 
     private void updateTexts() {
@@ -64,7 +73,6 @@ public class MainActivity extends Activity {
         tvMensaje.setText(mensaje);
     }
 
-    // 🔹 Guardar imagen seleccionada
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

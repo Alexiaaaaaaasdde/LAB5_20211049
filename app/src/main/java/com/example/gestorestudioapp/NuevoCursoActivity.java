@@ -27,11 +27,9 @@ public class NuevoCursoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_curso);
 
-        // 🔹 Barra superior con botón de regreso
         MaterialToolbar topAppBar = findViewById(R.id.topAppBar);
         topAppBar.setNavigationOnClickListener(v -> finish());
 
-        // 🔹 Campos del formulario
         etNombre = findViewById(R.id.etNombreCurso);
         etCategoria = findViewById(R.id.etCategoria);
         etFrecuencia = findViewById(R.id.etFrecuencia);
@@ -41,7 +39,6 @@ public class NuevoCursoActivity extends Activity {
 
         prefs = getSharedPreferences("CursosPrefs", MODE_PRIVATE);
 
-        // --- Selector de fecha ---
         etFecha.setOnClickListener(v -> {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -51,7 +48,6 @@ public class NuevoCursoActivity extends Activity {
             }, year, month, day).show();
         });
 
-        // --- Selector de hora ---
         etHora.setOnClickListener(v -> {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
@@ -60,7 +56,6 @@ public class NuevoCursoActivity extends Activity {
             }, hour, minute, true).show();
         });
 
-        // --- Botón guardar ---
         btnGuardar.setOnClickListener(v -> guardarCurso());
     }
 

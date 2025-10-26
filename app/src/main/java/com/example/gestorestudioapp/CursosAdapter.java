@@ -41,7 +41,6 @@ public class CursosAdapter extends RecyclerView.Adapter<CursosAdapter.ViewHolder
         holder.tvFrecuencia.setText("Frecuencia: " + curso.getFrecuencia());
         holder.tvFecha.setText("Próxima sesión: " + curso.getProximaSesion());
 
-        // 🗑️ Botón eliminar
         holder.btnEliminar.setOnClickListener(v -> mostrarDialogoEliminar(position));
     }
 
@@ -65,7 +64,6 @@ public class CursosAdapter extends RecyclerView.Adapter<CursosAdapter.ViewHolder
         }
     }
 
-    // ⚠️ Diálogo de confirmación
     private void mostrarDialogoEliminar(int position) {
         new AlertDialog.Builder(context)
                 .setTitle("Eliminar curso")
@@ -75,7 +73,6 @@ public class CursosAdapter extends RecyclerView.Adapter<CursosAdapter.ViewHolder
                 .show();
     }
 
-    // 🧩 Eliminar curso de lista y almacenamiento local
     private void eliminarCurso(int position) {
         listaCursos.remove(position);
         notifyItemRemoved(position);

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-
 import androidx.core.app.NotificationCompat;
 
 public class RecordatorioReceiver extends BroadcastReceiver {
@@ -21,26 +20,30 @@ public class RecordatorioReceiver extends BroadcastReceiver {
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // 🔹 Canal de notificaciones (Android 8+)
+        //Canal de notificación (Android 8+)
+        String canalId = "CANAL_GENERAL";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel canal = new NotificationChannel(
-                    "CANAL_RECORDATORIOS",
+                    canalId,
                     "Recordatorios de Cursos",
                     NotificationManager.IMPORTANCE_HIGH
             );
-            canal.setDescription("Notificaciones automáticas por curso");
+            canal.setDescription("Notificaciones de recordatorios por curso");
+            canal.enableVibration(true);
+            canal.enableLights(true);
             manager.createNotificationChannel(canal);
         }
 
-        // 🔹 Intent para abrir la app al tocar la notificación
-        Intent i = new Intent(context, CursosActivity.class);
+        Intent abrirApp = new Intent(context, CursosActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
-                context, 0, i,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                context,
+                0,
+                abrirApp,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
-        // 🔹 Construcción de la notificación
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CANAL_RECORDATORIOS")
-                .setSmallIcon(R.drawable.ic_notificacion)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, canalId)
+                .setSmallIcon(R.drawable.ic_notificacion) // asegúrate de tener este ícono en drawable
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_notificacion))
                 .setContentTitle("📘 " + nombreCurso)
                 .setContentText(mensaje)
