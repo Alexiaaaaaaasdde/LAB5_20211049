@@ -2,7 +2,9 @@ package com.example.gestorestudioapp;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
@@ -74,19 +76,96 @@ public class NuevoCursoActivity extends Activity {
             return;
         }
 
-        // 🔹 Crear nuevo curso
         Curso nuevo = new Curso(nombre, categoria, frecuencia, fecha + " - " + hora);
 
-        // 🔹 Obtener lista guardada
         String json = prefs.getString("listaCursos", "[]");
         Type type = new TypeToken<ArrayList<Curso>>() {}.getType();
         ArrayList<Curso> lista = gson.fromJson(json, type);
 
-        // 🔹 Agregar curso y guardar
         lista.add(nuevo);
         prefs.edit().putString("listaCursos", gson.toJson(lista)).apply();
 
-        Toast.makeText(this, "Curso guardado correctamente ✅", Toast.LENGTH_SHORT).show();
-        finish(); // volver a la lista
+        programarRecordatorio(nombre, categoria, fecha, hora);
+
+        Toast.makeText(this, "Curso guardado correctamente", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    private void programarRecordatorio(String nombre, String categoria, String fecha, String hora) {
+        String mensaje;
+        if (categoria.toLowerCase().contains("lab")) {
+            mensaje = "🧪 Completar práctica de laboratorio";
+        } else {
+            mensaje = "📖 Revisar apuntes de " + nombre;
+        }
+
+        Intent intent = new Intent(this, RecordatorioReceiver.class);
+        intent.putExtra("nombre", nombre);
+        intent.putExtra("mensaje", mensaje);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                (int) System.currentTimeMillis(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        Calendar c = Calendar.getInstance();
+        try {
+            String[] partesFecha = fecha.split("/");
+            String[] partesHora = hora.split(":");
+            c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(partesFecha[0]));
+            c.set(Calendar.MONTH, Integer.parseInt(partesFecha[1]) - 1);
+            c.set(Calendar.YEAR, Integer.parseInt(partesFecha[2]));
+            c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(partesHora[0]));
+            c.set(Calendar.MINUTE, Integer.parseInt(partesHora[1]));
+            c.set(Calendar.SECOND, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error en formato de fecha/hora", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        long tiempo = c.getTimeInMillis();
+        android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            // Verificar permiso exact alarm (Android 12+)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    Intent intentPermiso =
+                            new Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                    startActivity(intentPermiso);
+                    Toast.makeText(this, "Debes permitir alarmas exactas", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+
+            // Alarma exacta inicial
+            alarmManager.setExact(android.app.AlarmManager.RTC_WAKEUP, tiempo, pendingIntent);
+
+            // Repetir según frecuencia (en horas o días)
+            try {
+                long intervalo;
+                if (etFrecuencia.getText().toString().toLowerCase().contains("hora")) {
+                    int horas = Integer.parseInt(etFrecuencia.getText().toString().replaceAll("\\D+", ""));
+                    intervalo = horas * 60L * 60L * 1000L;
+                } else {
+                    int dias = Integer.parseInt(etFrecuencia.getText().toString().replaceAll("\\D+", ""));
+                    intervalo = dias * 24L * 60L * 60L * 1000L;
+                }
+
+                alarmManager.setRepeating(
+                        android.app.AlarmManager.RTC_WAKEUP,
+                        tiempo + intervalo,
+                        intervalo,
+                        pendingIntent
+                );
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(this, "🔔 Recordatorio programado", Toast.LENGTH_SHORT).show();
+        }
     }
 }
